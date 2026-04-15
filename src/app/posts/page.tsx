@@ -7,7 +7,6 @@ const PostPage = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-800 text-white">
       <div>
-        hello
         {posts?.map((post) => {
           return <p key={post.id}>{post.name}</p>;
         })}

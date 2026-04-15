@@ -1,5 +1,4 @@
 import { headers } from "next/headers";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { LatestPost } from "~/app/_components/post";
@@ -22,22 +21,6 @@ export default async function Home() {
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
             Dent<span className="text-[hsl(280,100%,70%)]">Assist</span> 1.0
           </h1>
-          <form className="space-y-2">
-            <div className="flex flex-col">
-              <label htmlFor="">Email</label>
-              <input type="text" className="w-full rounded-md border py-2" />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="">Password</label>
-              <input
-                type="password"
-                className="w-full rounded-md border py-2"
-              />
-            </div>
-            <button className="w-full rounded-md border py-2" type="submit">
-              Sign In
-            </button>
-          </form>
           <div className="flex flex-col items-center gap-2">
             <p className="text-2xl text-white">
               {hello ? hello.greeting : "Loading tRPC query..."}
