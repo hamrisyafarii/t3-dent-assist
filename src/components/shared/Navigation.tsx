@@ -3,7 +3,6 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 
-
 const Navigation = () => {
   return (
     <nav className="z-10 container mx-auto flex items-center justify-between px-6 py-6">

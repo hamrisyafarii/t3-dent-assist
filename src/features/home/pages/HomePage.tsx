@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Navigation from "../components/Navigation";
-import HeroSection from "../components/HeroSection";
-import FeaturesSection from "../components/FeaturesSection";
-import CtaSection from "../components/CtaSection";
-import Footer from "../components/Footer";
+import Navigation from "~/components/shared/Navigation";
+import HeroSection from "../_components/HeroSection";
+import FeaturesSection from "../_components/FeaturesSection";
+import CtaSection from "../_components/CtaSection";
+import Footer from "~/components/shared/Footer";
 
 export const metadata: Metadata = {
   title: "DentAssist | Asisten Kesehatan Gigi AI",
