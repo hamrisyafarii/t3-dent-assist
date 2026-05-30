@@ -3,9 +3,11 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 
-const Navigation = () => {
+type NavigationProps = { type?: string };
+
+const Navigation = (props: NavigationProps) => {
   return (
-    <nav className="z-10 container mx-auto flex items-center justify-between px-6 py-6">
+    <nav className="fixed z-10 container mx-auto flex items-center justify-between px-6 py-6">
       <div className="flex items-center gap-3">
         <div className="from-primary to-primary/60 text-primary-foreground shadow-primary/20 flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br shadow-lg">
           <HugeiconsIcon icon={Sparkles} />
@@ -13,14 +15,27 @@ const Navigation = () => {
         <span className="text-xl font-bold tracking-tight">DentAssist</span>
       </div>
       <div className="flex items-center gap-4">
-        <Link href="/chat">
-          <Button
-            variant="ghost"
-            className="hover:bg-muted/50 hidden rounded-full px-6 font-medium sm:inline-flex"
-          >
-            Masuk
-          </Button>
-        </Link>
+        {props.type === "home" && (
+          <Link href="/sign-in">
+            <Button
+              variant="ghost"
+              className="hover:bg-muted/50 hidden rounded-full px-6 font-medium sm:inline-flex"
+            >
+              Masuk
+            </Button>
+          </Link>
+        )}
+
+        {props.type === "sign-in" && (
+          <Link href="/">
+            <Button
+              variant="ghost"
+              className="hover:bg-muted/50 hidden rounded-full px-6 font-medium sm:inline-flex"
+            >
+              Kembali
+            </Button>
+          </Link>
+        )}
         <Link href="/chat">
           <Button className="shadow-primary/20 hover:shadow-primary/40 rounded-full px-6 font-medium shadow-lg transition-all hover:-translate-y-0.5">
             Mulai Konsultasi

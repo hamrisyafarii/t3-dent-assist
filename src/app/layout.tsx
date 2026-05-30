@@ -2,8 +2,8 @@ import "~/styles/globals.css";
 import { Geist, Figtree } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import { cn } from "~/lib/utils";
-import { ThemeProvider } from "~/components/ui/theme-provider";
 import type { Metadata } from "next";
+import { ThemeProvider } from "~/components/ui/theme-provider";
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -37,19 +37,21 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
-      suppressHydrationWarning={true}
       lang="en"
+      suppressHydrationWarning={true}
       className={cn(geist.variable, "font-sans", figtree.variable)}
     >
       <body>
-        <ThemeProvider
-          defaultTheme="dark"
-          attribute="class"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <TRPCReactProvider>{children}</TRPCReactProvider>
-        </ThemeProvider>
+        <TRPCReactProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
