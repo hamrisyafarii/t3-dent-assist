@@ -1,7 +1,8 @@
 "use client";
 
-import type React from "react";
+import React from "react";
 import { useState } from "react";
+import { toast } from "sonner";
 import Navigation from "~/components/shared/Navigation";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -9,10 +10,61 @@ import { authClient } from "~/server/better-auth/client";
 
 const SignInPage = () => {
   const [isSignIn, setIsSignIn] = useState(true);
+  const { isPending } = authClient.useSession();
+
+  const handleSignIn = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    try {
+      const { data, error } = await authClient.signIn.email({
+        email,
+        password,
+        callbackURL: "/chat",
+      });
+
+      if (error) {
+        toast.error(error.message || "An error occurred during sign in.");
+      }
+      if (data) {
+        toast.success("Signed in successfully!");
+      }
+    } catch (error) {
+      console.error("Sign In Error:", error);
+    }
+  };
+
+  const handleSignUp = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    try {
+      const { data, error } = await authClient.signUp.email({
+        name,
+        email,
+        password,
+        callbackURL: "/chat",
+      });
+      if (error) {
+        toast.error(error.message || "An error occurred during sign up.");
+      }
+      if (data) {
+        toast.success("Signed up successfully!, Please sign in to continue.");
+      }
+    } catch (error) {
+      console.error("Sign Up Error:", error);
+    }
+  };
 
   return (
     <>
-      <Navigation type="sign-in" />
+      <Navigation />
       <div className="bg-background text-foreground flex min-h-screen items-center justify-center overflow-hidden font-sans">
         <div className="from-primary/10 via-background to-background absolute inset-0 z-[-1] bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))]" />
         <div className="bg-primary/30 pointer-events-none absolute top-0 left-1/2 h-125 w-full max-w-250 -translate-x-1/2 rounded-full opacity-20 blur-[120px]" />
@@ -43,7 +95,7 @@ const SignInPage = () => {
           </div>
           {/* Sign In Form */}
           {isSignIn && (
-            <form>
+            <form onSubmit={handleSignIn}>
               <div className="mb-4 flex flex-col gap-4">
                 <label htmlFor="email" className="text-md block font-medium">
                   Email
@@ -59,10 +111,13 @@ const SignInPage = () => {
                   required
                 />
               </div>
-              <Button type="submit" className="mt-6 w-full">
-                Sign In
+              <Button
+                type="submit"
+                className="mt-6 w-full"
+                disabled={isPending}
+              >
+                {isPending ? "Signing In..." : "Sign In"}
               </Button>
-
               <div className="text-muted-foreground mt-4 text-center text-sm">
                 OR
               </div>
@@ -73,7 +128,7 @@ const SignInPage = () => {
           )}
           {/* Sign Up Form */}
           {!isSignIn && (
-            <form>
+            <form onSubmit={handleSignUp}>
               <div className="mb-4 flex flex-col gap-4">
                 <label htmlFor="name" className="text-md block font-medium">
                   Name
@@ -93,8 +148,12 @@ const SignInPage = () => {
                   required
                 />
               </div>
-              <Button type="submit" className="mt-6 w-full">
-                Sign Up
+              <Button
+                type="submit"
+                className="mt-6 w-full"
+                disabled={isPending}
+              >
+                {isPending ? "Signing Up..." : "Sign Up"}
               </Button>
 
               <div className="text-muted-foreground mt-4 text-center text-sm">

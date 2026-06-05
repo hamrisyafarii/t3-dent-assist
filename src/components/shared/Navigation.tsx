@@ -1,49 +1,59 @@
+"use client";
+
 import { ArrowBigRight, Sparkles } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
+import { authClient } from "~/server/better-auth/client";
 
-type NavigationProps = { type?: string };
+const Navigation = () => {
+  const router = useRouter();
+  const user = authClient.useSession();
 
-const Navigation = (props: NavigationProps) => {
+  console.log("Current User Session:", user.data?.session.token);
+
+  const handleLogout = async () => {
+    try {
+      await authClient.signOut();
+      router.push("/sign-in");
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
+  };
+
   return (
-    <nav className="fixed z-10 container mx-auto flex items-center justify-between px-6 py-6">
+    <div className="mx-auto flex w-full items-center justify-between px-6 py-6">
       <div className="flex items-center gap-3">
         <div className="from-primary to-primary/60 text-primary-foreground shadow-primary/20 flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br shadow-lg">
           <HugeiconsIcon icon={Sparkles} />
         </div>
-        <span className="text-xl font-bold tracking-tight">DentAssist</span>
-      </div>
-      <div className="flex items-center gap-4">
-        {props.type === "home" && (
-          <Link href="/sign-in">
-            <Button
-              variant="ghost"
-              className="hover:bg-muted/50 hidden rounded-full px-6 font-medium sm:inline-flex"
-            >
-              Masuk
-            </Button>
-          </Link>
-        )}
-
-        {props.type === "sign-in" && (
-          <Link href="/">
-            <Button
-              variant="ghost"
-              className="hover:bg-muted/50 hidden rounded-full px-6 font-medium sm:inline-flex"
-            >
-              Kembali
-            </Button>
-          </Link>
-        )}
-        <Link href="/chat">
-          <Button className="shadow-primary/20 hover:shadow-primary/40 rounded-full px-6 font-medium shadow-lg transition-all hover:-translate-y-0.5">
-            Mulai Konsultasi
-            <HugeiconsIcon icon={ArrowBigRight} />
-          </Button>
+        <Link href="/" className="text-xl font-bold tracking-tight">
+          DentAssist
         </Link>
       </div>
-    </nav>
+      <div className="flex items-center gap-4">
+        <div className="hidden items-center gap-4 md:flex">
+          {user.data?.session.token ? (
+            <Button variant={"outline"} onClick={handleLogout}>
+              Logout
+            </Button>
+          ) : (
+            <Button variant={"outline"}>
+              <Link href="/sign-in">Sign In</Link>
+            </Button>
+          )}
+        </div>
+
+        <Button
+          className="shadow-primary/20 hover:shadow-primary/40 rounded-full px-6 font-medium shadow-lg transition-all hover:-translate-y-0.5"
+          onClick={() => router.push("/chat")}
+        >
+          Mulai Konsultasi
+          <HugeiconsIcon icon={ArrowBigRight} />
+        </Button>
+      </div>
+    </div>
   );
 };
 
