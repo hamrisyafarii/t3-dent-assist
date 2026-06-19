@@ -87,18 +87,20 @@ const ChatPage = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-1 flex-col h-full bg-background">
+      <div className="bg-background flex h-full flex-1 flex-col">
         {messages.length === 0 ? (
           <div className="flex flex-1 items-center justify-center p-4">
             <div className="w-full max-w-2xl rounded-lg text-center">
-              <h2 className="text-3xl font-semibold">Welcome to Dent Assist!</h2>
+              <h2 className="text-3xl font-semibold">
+                Welcome to Dent Assist!
+              </h2>
               <p className="text-muted-foreground mt-4 text-lg">
                 Start a new chat to get dental assistance.
               </p>
             </div>
           </div>
         ) : (
-          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          <div className="flex-1 space-y-4 overflow-y-auto p-6">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -107,10 +109,10 @@ const ChatPage = () => {
                 }`}
               >
                 <div
-                  className={`max-w-lg px-4 py-3 rounded-xl ${
+                  className={`max-w-lg rounded-xl px-4 py-3 ${
                     message.sender === "user"
                       ? "bg-primary text-primary-foreground rounded-br-sm shadow-md"
-                      : "bg-muted text-muted-foreground border border-border rounded-bl-sm"
+                      : "bg-muted text-muted-foreground border-border rounded-bl-sm border"
                   }`}
                 >
                   <p className="text-sm leading-relaxed">{message.text}</p>
@@ -119,11 +121,11 @@ const ChatPage = () => {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-muted text-muted-foreground border border-border rounded-xl rounded-bl-sm px-4 py-3">
+                <div className="bg-muted text-muted-foreground border-border rounded-xl rounded-bl-sm border px-4 py-3">
                   <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce delay-100"></div>
-                    <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce delay-200"></div>
+                    <div className="bg-muted-foreground h-2 w-2 animate-bounce rounded-full"></div>
+                    <div className="bg-muted-foreground h-2 w-2 animate-bounce rounded-full delay-100"></div>
+                    <div className="bg-muted-foreground h-2 w-2 animate-bounce rounded-full delay-200"></div>
                   </div>
                 </div>
               </div>
@@ -132,11 +134,11 @@ const ChatPage = () => {
           </div>
         )}
 
-        <div className="border-t border-border bg-background p-4">
-          <div className="flex items-center w-full max-w-4xl mx-auto gap-3">
-            <div className="flex-1 relative">
+        <div className="border-border bg-background border-t p-4">
+          <div className="mx-auto flex w-full max-w-4xl items-center gap-3">
+            <div className="relative flex-1">
               <Input
-                className="h-12 pr-12 rounded-full pl-5 border-border bg-card shadow-sm focus:shadow-md transition-shadow"
+                className="border-border bg-card h-12 rounded-full pr-12 pl-5 shadow-sm transition-shadow focus:shadow-md"
                 placeholder="Type your message..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -147,7 +149,7 @@ const ChatPage = () => {
             <Button
               variant="default"
               size="icon"
-              className="rounded-full h-12 w-12 shadow-md"
+              className="h-12 w-12 rounded-full shadow-md"
               onClick={handleSendMessage}
               disabled={isLoading || !input.trim()}
             >
