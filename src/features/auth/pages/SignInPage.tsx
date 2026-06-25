@@ -64,7 +64,7 @@ const SignInPage = () => {
 
   return (
     <>
-      <Navigation />
+      <Navigation type="home" />
       <div className="bg-background text-foreground flex min-h-screen items-center justify-center overflow-hidden font-sans">
         <div className="from-primary/10 via-background to-background absolute inset-0 z-[-1] bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))]" />
         <div className="bg-primary/30 pointer-events-none absolute top-0 left-1/2 h-125 w-full max-w-250 -translate-x-1/2 rounded-full opacity-20 blur-[120px]" />

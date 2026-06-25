@@ -7,11 +7,9 @@ import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { authClient } from "~/server/better-auth/client";
 
-const Navigation = () => {
+const Navigation = (props?: { type: string }) => {
   const router = useRouter();
   const user = authClient.useSession();
-
-  console.log("Current User Session:", user.data?.session.token);
 
   const handleLogout = async () => {
     try {
@@ -33,25 +31,39 @@ const Navigation = () => {
         </Link>
       </div>
       <div className="flex items-center gap-4">
-        <div className="hidden items-center gap-4 md:flex">
-          {user.data?.session.token ? (
-            <Button variant={"outline"} onClick={handleLogout}>
-              Logout
+        {props?.type === "home" ? (
+          <>
+            <div className="hidden items-center gap-4 md:flex">
+              {user.data?.session.token ? (
+                <Button variant={"outline"} onClick={handleLogout}>
+                  Logout
+                </Button>
+              ) : (
+                <Button variant={"outline"}>
+                  <Link href="/sign-in">Sign In</Link>
+                </Button>
+              )}
+            </div>
+            <Button
+              className="shadow-primary/20 hover:shadow-primary/40 rounded-full px-6 font-medium shadow-lg transition-all hover:-translate-y-0.5"
+              onClick={() => router.push("/chat")}
+            >
+              Mulai Konsultasi
+              <HugeiconsIcon icon={ArrowBigRight} />
             </Button>
-          ) : (
-            <Button variant={"outline"}>
-              <Link href="/sign-in">Sign In</Link>
-            </Button>
-          )}
-        </div>
+          </>
+        ) : null}
 
-        <Button
-          className="shadow-primary/20 hover:shadow-primary/40 rounded-full px-6 font-medium shadow-lg transition-all hover:-translate-y-0.5"
-          onClick={() => router.push("/chat")}
-        >
-          Mulai Konsultasi
-          <HugeiconsIcon icon={ArrowBigRight} />
-        </Button>
+        {props?.type === "about" ? (
+          <div className="items-center gap-4">
+            <Button
+              variant={"outline"}
+              onClick={() => router.push("/feedback")}
+            >
+              Saran
+            </Button>
+          </div>
+        ) : null}
       </div>
     </div>
   );

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   return (
     <>
-      <Navigation />
+      <Navigation type="home" />
 
       <div className="bg-background text-foreground selection:bg-primary/30 flex min-h-screen flex-col overflow-hidden font-sans">
         {/* Background Effects */}
