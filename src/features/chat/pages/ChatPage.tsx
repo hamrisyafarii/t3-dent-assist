@@ -5,7 +5,7 @@ import { Input } from "~/components/ui/input";
 import Header from "../_components/Header";
 import { Button } from "~/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowRight } from "@hugeicons/core-free-icons";
+import { ArrowRight, MessageSquare, Sparkles } from "@hugeicons/core-free-icons";
 
 interface Message {
   id: string;
@@ -89,14 +89,24 @@ const ChatPage = () => {
       <Header />
       <div className="bg-background flex h-full flex-1 flex-col">
         {messages.length === 0 ? (
-          <div className="flex flex-1 items-center justify-center p-4">
-            <div className="w-full max-w-2xl rounded-lg text-center">
-              <h2 className="text-3xl font-semibold">
+          <div className="flex flex-1 flex-col items-center justify-center p-4">
+            <div className="animate-in fade-in slide-in-from-bottom-8 w-full max-w-2xl text-center duration-700">
+              <div className="bg-primary/10 text-primary mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl">
+                <HugeiconsIcon icon={MessageSquare} size={32} />
+              </div>
+              <h2 className="from-foreground to-foreground/70 bg-linear-to-br bg-clip-text text-3xl font-bold tracking-tight text-transparent sm:text-4xl">
                 Welcome to Dent Assist!
               </h2>
-              <p className="text-muted-foreground mt-4 text-lg">
-                Start a new chat to get dental assistance.
+              <p className="text-muted-foreground mx-auto mt-4 max-w-md text-lg leading-relaxed">
+                Your AI-powered dental health companion. Ready to help with your
+                questions.
               </p>
+              <div className="bg-muted/50 border-border mt-8 inline-flex items-center gap-3 rounded-full border px-5 py-2.5 text-sm font-medium transition-all hover:bg-muted">
+                <HugeiconsIcon icon={Sparkles} size={16} className="text-primary" />
+                <span className="text-muted-foreground">
+                  Start a new chat to get dental assistance.
+                </span>
+              </div>
             </div>
           </div>
         ) : (
@@ -134,27 +144,27 @@ const ChatPage = () => {
           </div>
         )}
 
-        <div className="border-border bg-background border-t p-4">
+        <div className="from-background/0 via-background/60 to-background sticky bottom-0 z-10 p-4 pb-8 pt-12 bg-linear-to-t">
           <div className="mx-auto flex w-full max-w-4xl items-center gap-3">
-            <div className="relative flex-1">
+            <div className="border-border bg-card/80 relative flex flex-1 items-center gap-2 rounded-2xl border p-2 shadow-2xl backdrop-blur-xl transition-all focus-within:ring-2 focus-within:ring-primary/30">
               <Input
-                className="border-border bg-card h-12 rounded-full pr-12 pl-5 shadow-sm transition-shadow focus:shadow-md"
-                placeholder="Type your message..."
+                className="border-none bg-transparent h-12 pr-4 pl-4 shadow-none focus-visible:ring-0 text-base"
+                placeholder="Start a new chat to get dental assistance..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 disabled={isLoading}
               />
+              <Button
+                variant="default"
+                size="icon"
+                className="h-10 w-10 shrink-0 rounded-xl shadow-lg transition-all hover:scale-105 active:scale-95"
+                onClick={handleSendMessage}
+                disabled={isLoading || !input.trim()}
+              >
+                <HugeiconsIcon icon={ArrowRight} size={20} />
+              </Button>
             </div>
-            <Button
-              variant="default"
-              size="icon"
-              className="h-12 w-12 rounded-full shadow-md"
-              onClick={handleSendMessage}
-              disabled={isLoading || !input.trim()}
-            >
-              <HugeiconsIcon icon={ArrowRight} />
-            </Button>
           </div>
         </div>
       </div>
