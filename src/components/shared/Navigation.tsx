@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { authClient } from "~/server/better-auth/client";
 
-const Navigation = (props?: { type: string }) => {
+const Navigation = (props?: { type?: string }) => {
   const router = useRouter();
   const user = authClient.useSession();
 
@@ -56,12 +56,9 @@ const Navigation = (props?: { type: string }) => {
 
         {props?.type === "about" ? (
           <div className="items-center gap-4">
-            <Button
-              variant={"outline"}
-              onClick={() => router.push("/feedback")}
-            >
-              Saran
-            </Button>
+            <Link href="/feedback">
+              <Button variant={"outline"}>Saran</Button>
+            </Link>
           </div>
         ) : null}
       </div>

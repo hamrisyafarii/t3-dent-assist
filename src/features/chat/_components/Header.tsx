@@ -9,10 +9,17 @@ const Header = () => {
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
         <SidebarTrigger className="-ml-1" />
         <Separator orientation="vertical" />
-        <h1 className="text-base font-medium">Dent Assist</h1>
+        <Link href="/">
+          <h1 className="text-base font-medium">Dent Assist</h1>
+        </Link>
         <div className="ml-auto flex items-center gap-2">
-          <Link href="/about">
+          <Link href="/feedback">
             <Button variant="outline" size="sm" className="cursor-pointer">
+              Saran
+            </Button>
+          </Link>
+          <Link href="/about">
+            <Button variant="default" size="sm" className="cursor-pointer">
               Tentang Kami
             </Button>
           </Link>
@@ -21,4 +28,5 @@ const Header = () => {
     </header>
   );
 };
+
 export default Header;
